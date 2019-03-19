@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--配置是有顺序的-->
+<generatorConfiguration>
+    <!-- 指定数据库驱动jar地址,可以pom.xml中设置 -->
+    <!-- classPathEntry location="${user.home}/.m2/repository/mysql/mysql-connector-java/5.1.44/mysql-connector-java-5.1.44.jar"/> -->
+    <context id="mysql" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin" />
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+<!--数据库的参数-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/test?serverTimezone=UTC"
+                        userId="hxf"
+                        password="hxf">
+        </jdbcConnection>
+<!--生成的目标文件-->
+        <javaModelGenerator targetPackage="com.example.test1.demo.Model"
+                            targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.example.test1.demo.mapper"
+                         targetProject="./src/main/resources/mapper">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+<!--xml Mapper-->
+        <javaClientGenerator type="MIXEDMAPPER"
+                             targetPackage="com.example.test1.demo.mapper"
+                             targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <table tableName="login" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false" />
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+    </context>
+</generatorConfiguration>
