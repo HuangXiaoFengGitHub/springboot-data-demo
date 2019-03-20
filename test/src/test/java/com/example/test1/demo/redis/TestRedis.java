@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * redis测试
  *
- * @author pysasuke
- * @create 2017-09-15
  */
 /*
 当redis数据库里面本来存的是字符串数据或者要存取的数据就是字符串类型数据的时候，

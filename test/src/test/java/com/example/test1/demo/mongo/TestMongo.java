@@ -17,8 +17,6 @@ import java.util.Optional;
 /**
  * mongodb测试
  *
- * @author pysasuke
- * @create 2017-09-15
  */
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
