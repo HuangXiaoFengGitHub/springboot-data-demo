@@ -3,12 +3,13 @@ package com.example.test1.demo.controller;
 import com.example.test1.demo.Model.User;
 import com.example.test1.demo.service.IRegService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+//import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,21 +19,29 @@ import java.security.NoSuchAlgorithmException;
 
 @Controller
 @EnableAutoConfiguration
+@RequestMapping(value = "helloworld", method = { RequestMethod.GET,
+        RequestMethod.POST })
 public class HelloWorld {
     @Autowired
     private IRegService regService;
     private ObjectMapper jsonMapper;
-    private XmlMapper xmlMapper;
+//    private XmlMapper xmlMapper;
+//
+//    public HelloWorld(@Autowired @Qualifier("json") ObjectMapper jsonMapper, @Autowired @Qualifier("xml") XmlMapper xmlMapper) {
+//        this.jsonMapper = jsonMapper;
+//        this.xmlMapper = xmlMapper;
+//    }
+    @RequestMapping(value = "/register2", method = RequestMethod.GET)
+    private String register() {
+    return "register";
+} //返回注册页面
 
-    public HelloWorld(@Autowired @Qualifier("json") ObjectMapper jsonMapper, @Autowired @Qualifier("xml") XmlMapper xmlMapper) {
-        this.jsonMapper = jsonMapper;
-        this.xmlMapper = xmlMapper;
-    }
     @RequestMapping("/test")
     @ResponseBody
     String home() {
         return regService.findUser("hxf").toString();
     }
+
     @RequestMapping(value = "/json", produces = "application/json")
     @ResponseBody
     public User json() {

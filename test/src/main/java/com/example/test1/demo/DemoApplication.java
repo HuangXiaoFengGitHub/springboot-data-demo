@@ -4,6 +4,7 @@ import com.example.test1.demo.Model.Login;
 import com.example.test1.demo.Model.LoginExample;
 import com.example.test1.demo.mapper.LoginMapper;
 import com.example.test1.demo.service.RegService;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -15,6 +16,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,15 +33,53 @@ import java.util.List;
 public class DemoApplication  implements ApplicationRunner {
     @Autowired
     private LoginMapper loginMapper;
+    //hibernate5组件
+    @Bean
+    public Hibernate5Module hibernate5Module() {
+        return new Hibernate5Module();
+    }
+
+    //Commons-Multipart配置
+    @Bean(name="commonsMultipartResolver")
+    public CommonsMultipartResolver commonsMultipartResolver() {
+        final CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setMaxUploadSize(-1);
+        return commonsMultipartResolver;
+    }
+    @Bean
+    public FilterRegistrationBean multipartFilterRegistrationBean() {
+        final MultipartFilter multipartFilter = new MultipartFilter();
+        final FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(multipartFilter);
+        filterRegistrationBean.addInitParameter("multipartResolverBeanName", "commonsMultipartResolver");
+        return filterRegistrationBean;
+    }
+    //显示声明CommonsMultipartResolver为mutipartResolver
+    @Bean(name = "multipartResolver")
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("UTF-8");
+        resolver.setResolveLazily(true);//resolveLazily属性启用是为了推迟文件解析，以在在UploadAction中捕获文件大小异常
+        resolver.setMaxInMemorySize(40960);
+        resolver.setMaxUploadSize(5 * 1024 * 1024);//上传文件大小 5M 5*1024*1024
+        return resolver;
+    }
+
+    //增加json缩进，提高可读性
+//    @Bean
+//    public Jackson2ObjectMapperBuilderCustomizer jacksonBuilderCustomizer() {
+//        return builder -> builder.indentOutput(true);
+//    }
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
         String sb="hxf";
         log.info("日志框架："+sb);
        // String id= RegService
     }
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("begin:");
+        multipartResolver();
 	  //generateArtifacts(); //生成
  //      playWithArtifacts(); //演示
     }
