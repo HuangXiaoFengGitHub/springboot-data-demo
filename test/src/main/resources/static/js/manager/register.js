@@ -5,6 +5,30 @@
  */
 //从函数开头
 $(function() {
+	toastr.options = {
+
+		"closeButton": false, //是否显示关闭按钮
+
+		"debug": false, //是否使用debug模式
+
+		"positionClass": "toast-top-full-width",//弹出窗的位置
+
+		"showDuration": "300",//显示的动画时间
+
+		"hideDuration": "1000",//消失的动画时间
+
+		"timeOut": "5000", //展现时间
+
+		"extendedTimeOut": "1000",//加长展示时间
+
+		"showEasing": "swing",//显示时的动画缓冲方式
+
+		"hideEasing": "linear",//消失时的动画缓冲方式
+
+		"showMethod": "fadeIn",//显示时的动画方式
+
+		"hideMethod": "fadeOut" //消失时的动画方式
+	};
 	var registerUrl = '/myo2o/shop/ownerregister';//后台方法,在controller层中实现，并写出对应的mappering
 	$('#submit').click(function() { //点击提交的时候响应，获取提交的内容，表单提交的属性id是“submit”
 		var localAuth = {};//变量，json对象
@@ -16,14 +40,14 @@ $(function() {
 		personInfo.name = $('#name').val();
 		localAuth.personInfo = personInfo;
 		//获取提交的头像文件
-		var thumbnail = $('#small-img')[0].files[0]; //这里是上传的文件
+		var thumbnail = $('#user-image')[0].files[0]; //这里是上传的文件
 		console.log(thumbnail);
 		var formData = new FormData(); //接受表单内容
 		formData.append('thumbnail', thumbnail);//传输参数
 		formData.append('localAuthStr', JSON.stringify(localAuth)); //传送参数
 		var verifyCodeActual = $('#j_captcha').val(); //接收验证码，验证码的控件id是j_captcha
 		if (!verifyCodeActual) {
-			$.toast('请输入验证码！');
+			toastr.info('请输入验证码！');
 			return;
 		}
 		formData.append("verifyCodeActual", verifyCodeActual);
@@ -37,10 +61,10 @@ $(function() {
 			cache : false,
 			success : function(data) { //接受到后台返回的data信息，这里要实现定义一个后台
 				if (data.success) {
-					$.toast('提交成功！');
+					toastr.info('提交成功！');
 					window.location.href = '/myo2o/shop/ownerlogin';
 				} else {
-					$.toast('提交失败！');
+					toastr.info('提交失败！');
 					$('#captcha_img').click();
 				}
 			}

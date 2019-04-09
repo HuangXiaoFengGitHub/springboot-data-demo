@@ -1,18 +1,21 @@
 package com.example.test1.demo.util;
 
+import com.example.test1.demo.BaseTest;
 import com.example.test1.demo.Model.JacksonUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class JacksonTest  {
-    ObjectMapper mapper =new ObjectMapper();
+public class JacksonTest extends BaseTest {
+    @Autowired
+    ObjectMapper mapper ;
     @Test
-    public void test() throws Exception {
+    public void test2() throws Exception {
         JacksonUser friend = JacksonUser.builder().id("1").pwd("19960704").userId("1996").build();
         //写为字符串
         String text = mapper.writeValueAsString(friend);

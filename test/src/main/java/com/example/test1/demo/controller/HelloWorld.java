@@ -30,11 +30,15 @@ public class HelloWorld {
 //        this.jsonMapper = jsonMapper;
 //        this.xmlMapper = xmlMapper;
 //    }
-    @RequestMapping(value = "/register2", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     private String register() {
     return "register";
 } //返回注册页面
-
+    @RequestMapping("/webJarTest")
+    private String webJarTest()
+    {
+        return "test/webjartest";
+    }
     @RequestMapping("/test")
     @ResponseBody
     String home() {

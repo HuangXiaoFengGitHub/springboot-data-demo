@@ -1,5 +1,6 @@
 package com.example.test1.demo.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 //import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -24,7 +25,6 @@ public class JacksonConfig {
 //        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 //        return mapper;
 //    }
-
     @Bean
     @Qualifier("json")
     public ObjectMapper jsonMapper(Jackson2ObjectMapperBuilder builder) {
@@ -32,6 +32,7 @@ public class JacksonConfig {
                 .build();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         return mapper;
     }
 }

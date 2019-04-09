@@ -1,6 +1,7 @@
 package com.example.test1.demo.Model;
 
 import com.example.test1.demo.enums.GenderEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
@@ -22,22 +23,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
     private String nickName;
-    private String realName;
+    private String userName;
     @Column(columnDefinition = "text")
     private String profile;//头像地址
-    @Enumerated(EnumType.STRING)
-    private GenderEnum gender;
+    private String gender;
     private String grade;
     private String studentNumber;
-    @ManyToOne(cascade = CascadeType.ALL)//级联操作不是很清楚
-    @JoinColumn(name = "major_id")
-    private Major major; //外键引用
+    private String major;
     private String phone;
     private String email;
-    private Calendar birthday;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="academy_id")
-    private Academy academy; //外键
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date birthday;
+    private String academy;
     @Column(columnDefinition = "text")
     private String userDesc;
     private long likeCount;

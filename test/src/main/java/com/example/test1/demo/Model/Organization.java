@@ -22,6 +22,8 @@ public class Organization {
     @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Activity> activities;
     private String organizationName;
+    @Column(columnDefinition = "text")
+    private String organizationDesc;
     private long parentId;
     private String wechatImg;
     private String wechatName;
